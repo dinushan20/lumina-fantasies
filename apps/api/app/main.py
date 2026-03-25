@@ -1,7 +1,12 @@
 from __future__ import annotations
 
+import asyncio
 import logging
 from contextlib import asynccontextmanager
+from pathlib import Path
+
+from alembic import command
+from alembic.config import Config
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -25,10 +30,29 @@ def configure_logging() -> None:
     )
 
 
+def run_startup_migrations() -> None:
+    settings = get_settings()
+    api_root = Path(__file__).resolve().parents[1]
+    alembic_ini = api_root / "alembic.ini"
+    alembic_dir = api_root / "alembic"
+
+    config = Config(str(alembic_ini))
+    config.set_main_option("script_location", str(alembic_dir))
+    config.set_main_option("sqlalchemy.url", settings.database_url)
+
+    command.upgrade(config, "head")
+
+
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     configure_logging()
-    logging.getLogger("lumina.startup").info("API booted with environment=%s", get_settings().environment)
+    settings = get_settings()
+
+    if settings.environment != "development":
+        logging.getLogger("lumina.startup").info("Running Alembic migrations for environment=%s", settings.environment)
+        await asyncio.to_thread(run_startup_migrations)
+
+    logging.getLogger("lumina.startup").info("API booted with environment=%s", settings.environment)
     yield
 
 
