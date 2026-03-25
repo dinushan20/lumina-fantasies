@@ -297,8 +297,8 @@ If Stripe CLI prints a signing secret, copy it into `STRIPE_WEBHOOK_SECRET`.
 1. Create a Vercel project pointed at this repository.
 2. Set the project Root Directory to `apps/web`.
 3. Use the values from [deploy/vercel.json](/Users/dinushanmeeriyagalla/Documents/New_S_Project/deploy/vercel.json) or set equivalent commands manually:
-   - Install Command: `npm install`
-   - Build Command: `npm run build:web`
+   - Install Command: `cd ../.. && npm install`
+   - Build Command: `cd ../.. && npm run build:web`
    - Output Framework: `Next.js`
 4. Add the required web environment variables from [.env.production.example](/Users/dinushanmeeriyagalla/Documents/New_S_Project/.env.production.example).
 5. In Clerk, add your production Vercel domain to the allowed redirect URLs and origin settings.
@@ -309,9 +309,13 @@ If Stripe CLI prints a signing secret, copy it into `STRIPE_WEBHOOK_SECRET`.
 1. Provision managed Postgres and Redis first.
 2. Deploy the FastAPI service with [deploy/Dockerfile.api](/Users/dinushanmeeriyagalla/Documents/New_S_Project/deploy/Dockerfile.api).
 3. If you are using Render, [deploy/render.yaml](/Users/dinushanmeeriyagalla/Documents/New_S_Project/deploy/render.yaml) can be used as the starting blueprint.
-4. Set the required API environment variables from [.env.production.example](/Users/dinushanmeeriyagalla/Documents/New_S_Project/.env.production.example).
-5. Restrict `CORS_ORIGINS` to the production frontend domain only.
-6. Run migrations against the production database:
+4. Recommended Render settings:
+   - Root Directory: `apps/api`
+   - Build Command: `pip install -e .`
+   - Start Command: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+5. Set the required API environment variables from [.env.production.example](/Users/dinushanmeeriyagalla/Documents/New_S_Project/.env.production.example).
+6. Restrict `CORS_ORIGINS` to the production frontend domain only.
+7. Run migrations against the production database:
 
 ```bash
 cd apps/api
