@@ -7,6 +7,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { fetchBackendAsCurrentUser, getServerProfileOrNull } from "@/lib/server/backend";
 import type { AnalyticsOverviewResponse, CreatorInviteResponse, ModerationQueueSummary } from "@/lib/api";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminModerationPage() {
   const session = await auth();
 

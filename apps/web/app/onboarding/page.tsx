@@ -5,6 +5,8 @@ import { AgeGateCard } from "@/components/auth/age-gate-card";
 import { PreferencesForm } from "@/components/onboarding/preferences-form";
 import { getServerProfileOrNull } from "@/lib/server/backend";
 
+export const dynamic = "force-dynamic";
+
 export default async function OnboardingPage() {
   const session = await auth();
 

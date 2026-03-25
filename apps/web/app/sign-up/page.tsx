@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { isClerkConfigured } from "@/lib/clerk";
 
+export const dynamic = "force-dynamic";
+
 export default async function SignUpPage() {
   const session = await auth();
   const clerkConfigured = isClerkConfigured();

@@ -7,6 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getServerProfileOrNull } from "@/lib/server/backend";
 
+export const dynamic = "force-dynamic";
+
 export default async function CreatorDashboardPage() {
   const session = await auth();
 

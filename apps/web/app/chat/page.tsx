@@ -4,6 +4,8 @@ import { auth } from "@/auth";
 import { ChatShell } from "@/components/chat/chat-shell";
 import { getServerProfileOrNull } from "@/lib/server/backend";
 
+export const dynamic = "force-dynamic";
+
 export default async function ChatPage({
   searchParams
 }: {
