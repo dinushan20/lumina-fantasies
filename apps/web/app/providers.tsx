@@ -3,10 +3,12 @@
 import { ClerkProvider } from "@clerk/nextjs";
 import { PropsWithChildren } from "react";
 
+import { isClerkConfigured } from "@/lib/clerk";
+
 export function Providers({ children }: PropsWithChildren) {
   const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
-  if (!publishableKey) {
+  if (!isClerkConfigured() || !publishableKey) {
     return <>{children}</>;
   }
 
