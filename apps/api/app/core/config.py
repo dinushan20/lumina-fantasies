@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 from functools import lru_cache
-from typing import Literal
+from typing import Annotated, Literal
 
 from pydantic import Field, field_validator
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
 
 
 class Settings(BaseSettings):
@@ -19,7 +19,7 @@ class Settings(BaseSettings):
 
     database_url: str = "postgresql+asyncpg://lumina:lumina@localhost:5432/lumina"
     redis_url: str = "redis://localhost:6379/0"
-    cors_origins: list[str] = Field(default_factory=lambda: ["http://localhost:3000"])
+    cors_origins: Annotated[list[str], NoDecode] = Field(default_factory=lambda: ["http://localhost:3000"])
 
     llm_provider: Literal["mock", "openai-compatible"] = "mock"
     llm_model: str = "qwen3.5-32b-instruct"
@@ -41,6 +41,23 @@ class Settings(BaseSettings):
     consent_score_threshold: int = 75
     human_review_threshold: int = 55
     moderation_queue_threshold: float = 92.0
+
+    @field_validator("database_url", mode="before")
+    @classmethod
+    def normalize_database_url(cls, value: str) -> str:
+        if not isinstance(value, str):
+            return value
+
+        if value.startswith("postgresql+asyncpg://"):
+            return value
+
+        if value.startswith("postgresql://"):
+            return value.replace("postgresql://", "postgresql+asyncpg://", 1)
+
+        if value.startswith("postgres://"):
+            return value.replace("postgres://", "postgresql+asyncpg://", 1)
+
+        return value
 
     @field_validator("cors_origins", mode="before")
     @classmethod
