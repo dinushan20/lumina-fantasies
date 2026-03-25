@@ -6,6 +6,10 @@ function hasRealClerkValue(value: string | undefined) {
   return !value.includes("replace_me") && !value.includes("replace-me");
 }
 
+export function isClerkFrontendConfigured() {
+  return hasRealClerkValue(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
+}
+
 export function isClerkConfigured() {
-  return hasRealClerkValue(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY) && hasRealClerkValue(process.env.CLERK_SECRET_KEY);
+  return isClerkFrontendConfigured() && hasRealClerkValue(process.env.CLERK_SECRET_KEY);
 }
