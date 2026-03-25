@@ -1,19 +1,21 @@
-import { SignUp } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
+import { isClerkConfigured } from "@/lib/clerk";
 
 export default async function SignUpPage() {
   const session = await auth();
-  const clerkConfigured = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
+  const clerkConfigured = isClerkConfigured();
 
   if (session) {
     redirect("/onboarding");
   }
 
+  const SignUp = clerkConfigured ? (await import("@clerk/nextjs")).SignUp : null;
+
   return (
     <main className="flex min-h-screen items-center justify-center px-6 py-16">
-      {clerkConfigured ? (
+      {clerkConfigured && SignUp ? (
         <SignUp
           appearance={{
             elements: {

@@ -1,13 +1,20 @@
+import { NextResponse } from "next/server";
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+
+import { isClerkConfigured } from "@/lib/clerk";
 
 const isProtectedRoute = createRouteMatcher(["/dashboard(.*)", "/chat(.*)", "/onboarding(.*)", "/twins(.*)", "/admin(.*)"]);
 
-export default clerkMiddleware(async (auth, request) => {
+const clerkMiddlewareHandler = clerkMiddleware(async (auth, request) => {
   if (isProtectedRoute(request)) {
     await auth.protect();
   }
 });
 
+const passthroughMiddleware = () => NextResponse.next();
+
+export default isClerkConfigured() ? clerkMiddlewareHandler : passthroughMiddleware;
+
 export const config = {
-  matcher: ["/dashboard/:path*", "/chat/:path*", "/onboarding/:path*", "/twins/:path*", "/admin/:path*"]
+  matcher: ["/((?!_next|.*\\..*).*)", "/"]
 };

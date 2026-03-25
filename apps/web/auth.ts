@@ -4,6 +4,7 @@ import { createHash } from "crypto";
 import { cache } from "react";
 
 import { auth as clerkAuth, clerkClient, currentUser } from "@clerk/nextjs/server";
+import { isClerkConfigured } from "@/lib/clerk";
 
 export interface LuminaSession {
   user: {
@@ -72,6 +73,10 @@ function buildDisplayName(firstName: string | null, lastName: string | null, use
 }
 
 export const auth = cache(async (): Promise<LuminaSession | null> => {
+  if (!isClerkConfigured()) {
+    return null;
+  }
+
   const { userId } = await clerkAuth();
 
   if (!userId) {
@@ -105,6 +110,10 @@ export const auth = cache(async (): Promise<LuminaSession | null> => {
 });
 
 export async function setCurrentUserAgeVerified() {
+  if (!isClerkConfigured()) {
+    throw new Error("Clerk is not configured");
+  }
+
   const { userId } = await clerkAuth();
 
   if (!userId) {
