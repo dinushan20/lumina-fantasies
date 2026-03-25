@@ -1,0 +1,14 @@
+{
+  "name": "lumina-fantasies",
+  "private": true,
+  "workspaces": [
+    "apps/web"
+  ],
+  "scripts": {
+    "dev:web": "npm run dev --workspace @lumina/web",
+    "build:web": "npm run build --workspace @lumina/web",
+    "typecheck:web": "npm run typecheck --workspace @lumina/web",
+    "lint:web": "npm run lint --workspace @lumina/web"
+  }
+}
+

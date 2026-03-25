@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: "Iowan Old Style";
+  --font-body: "Avenir Next";
+  --background: 222 30% 7%;
+  --foreground: 24 33% 96%;
+  --card: 224 31% 11%;
+  --card-foreground: 24 33% 96%;
+  --primary: 19 100% 62%;
+  --primary-foreground: 26 100% 8%;
+  --secondary: 336 34% 20%;
+  --secondary-foreground: 24 33% 96%;
+  --accent: 340 65% 56%;
+  --accent-foreground: 24 33% 96%;
+  --muted: 222 21% 18%;
+  --muted-foreground: 220 16% 72%;
+  --border: 220 18% 24%;
+  --destructive: 0 72% 52%;
+  --destructive-foreground: 24 33% 96%;
+}
+
+* {
+  border-color: hsl(var(--border));
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background-image: radial-gradient(circle at top, rgba(251, 146, 60, 0.12), transparent 30%),
+    radial-gradient(circle at 18% 18%, rgba(244, 114, 182, 0.1), transparent 18%),
+    radial-gradient(circle at 78% 12%, rgba(236, 72, 153, 0.08), transparent 20%),
+    linear-gradient(180deg, rgba(16, 20, 31, 1), rgba(9, 12, 20, 1));
+  color: hsl(var(--foreground));
+}
+
+.glass-panel {
+  background: linear-gradient(180deg, rgba(20, 26, 39, 0.92), rgba(14, 18, 28, 0.88));
+  backdrop-filter: blur(18px);
+}
+
+::selection {
+  background: rgba(249, 115, 22, 0.35);
+  color: white;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.35);
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(251, 146, 60, 0.22);
+}
+
+.page-shell {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 80rem;
+  padding-inline: 1rem;
+}
+
+.section-kicker {
+  color: rgba(254, 215, 170, 0.76);
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+
+.soft-grid {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+@media (min-width: 640px) {
+  .page-shell {
+    padding-inline: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .page-shell {
+    padding-inline: 2rem;
+  }
+}
